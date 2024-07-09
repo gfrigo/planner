@@ -13,6 +13,7 @@ import lombok.Setter;
 /*Entidade Trip é a representação da tabela trip*/
 
 @Entity
+@Table(name = "trips")
 @Getter
 @Setter
 @NoArgsConstructor
