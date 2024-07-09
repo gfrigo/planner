@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import jakarta.persistence.*;
 
+/*Entidade Trip é a representação da tabela trip*/
+
 @Entity
 public class Trip {
     
