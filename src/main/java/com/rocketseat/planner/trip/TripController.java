@@ -35,7 +35,7 @@ public class TripController {
 
         this.repository.save(newTrip);
         
-        this.participantService.registerParticipantsToTrip(payload.emails_to_envite(), newTrip.getId());
+        this.participantService.registerParticipantsToTrip(payload.emails_to_envite(), newTrip);
 
         /*createTrip() retorna uma resposta HTTP que contém um corpo de resposta do tipo String.*/
         return ResponseEntity.ok(new TripCreateResponse(newTrip.getId()));
@@ -61,6 +61,23 @@ public class TripController {
             rawTrip.setEndsAt(LocalDateTime.parse(payload.ends_at(), DateTimeFormatter.ISO_DATE_TIME));
             
             this.repository.save(rawTrip);
+
+            return ResponseEntity.ok(rawTrip);
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/{id}/confirm")
+    public ResponseEntity<Trip> confirmTrip(@PathVariable UUID id){
+        Optional<Trip> trip = this.repository.findById(id);
+
+        if(trip.isPresent()){
+            Trip rawTrip = trip.get();
+            rawTrip.setIsConfirmed(true);
+
+            this.repository.save(rawTrip);
+            this.participantService.triggerConfirmationEmailToParticipants(id);
 
             return ResponseEntity.ok(rawTrip);
         }
