@@ -10,18 +10,19 @@ import com.rocketseat.planner.trip.Trip;
 
 @Service
 public class ParticipantService {
-    
+
     @Autowired
     private ParticipantRepository repository;
-
-    public void registerParticipantsToTrip(List<String> paticipantsToEnvite, Trip trip){
-        List<Participant> participants = paticipantsToEnvite.stream().map(email -> new Participant(email, trip)).toList();
-        
+    
+    public void registerParticipantsToEvent(List<String> participantsToInvite, Trip trip){
+        List<Participant> participants = participantsToInvite.stream().map(email -> new Participant(email, trip)).toList();
         this.repository.saveAll(participants);
-        
+
         System.out.println(participants.get(0).getId());
     }
 
-    public void triggerConfirmationEmailToParticipants(UUID tripId){}
+    public void triggerConfirmationEmailToParticipants(UUID tripId){};
+
+    public void triggerConfirmationEmailToParticipant(String email){};
 
 }

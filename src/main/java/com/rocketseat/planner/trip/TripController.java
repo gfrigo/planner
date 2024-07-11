@@ -30,14 +30,12 @@ public class TripController {
     private TripRepository repository;
 
     @PostMapping
-    public ResponseEntity<TripCreateResponse> createTrip(@RequestBody TripRequestPayload payload){
-        Trip newTrip = new Trip(payload);
+    public ResponseEntity<TripCreateResponse> createTrip(@RequestBody TripRequestPayload payload) {
+        Trip newTrip = new Trip(payload); 
 
         this.repository.save(newTrip);
-        
-        this.participantService.registerParticipantsToTrip(payload.emails_to_envite(), newTrip);
+        this.participantService.registerParticipantsToEvent(payload.emails_to_invite(), newTrip);
 
-        /*createTrip() retorna uma resposta HTTP que contém um corpo de resposta do tipo String.*/
         return ResponseEntity.ok(new TripCreateResponse(newTrip.getId()));
     }
 
